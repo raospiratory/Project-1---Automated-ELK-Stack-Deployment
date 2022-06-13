@@ -118,7 +118,7 @@ We will create an ELK server within a virtual network.
 
 - Click the `+ Add` button to create a new Peering.
 
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings1.PNG)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings1.png)
 
 - Make sure your new Peering has the following settings:
 
