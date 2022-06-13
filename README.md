@@ -98,7 +98,7 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 
 We will create an ELK server within a virtual network.
 
->Creating a New vNet
+####Creating a New vNet
 
 1. Create a new vNet located in the same resouce group you have been using. 
 - Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
