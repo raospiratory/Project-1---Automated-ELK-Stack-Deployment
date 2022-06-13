@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](Diagrams/NetworkDiagram.png)
+![Network Diagram]([Diagrams/NetworkDiagram.png](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/tree/main/Diagram))
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the Configuration and YAML files may be used to install only certain pieces of it, such as Filebeat.
 
