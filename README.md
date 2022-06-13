@@ -24,7 +24,7 @@ This document contains the following details:
 - Machines Being Monitored
 - How to Use the Ansible Build
 
-
+---
 ### Description of the Topology
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
@@ -60,7 +60,7 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 |  Web-3 VM  | DVWA Server |         10.0.0.7         |       Linux      | Ubuntu Server 18.04 LTS |
 | ELK Server |  Monitoring | 20.242.105.231; 10.1.0.7 |       Linux      | Ubuntu Server 18.04 LTS |
 
-
+---
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
@@ -84,7 +84,7 @@ A summary of the access policies in place can be found in the table below.
 |  Web-3 VM  |          No         |       10.0.0.7       |  SSH 22  | Ubuntu Server 18.04 LTS |
 | Elk Server |          No         |    Local Admin IP    | TCP 5601 | Ubuntu Server 18.04 LTS |
 
-
+---
 ### Elk Configuration [Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
@@ -167,9 +167,10 @@ We will create an ELK server within a virtual network. Specifically we will:
 
 - Configure a new VM using that SSH key.
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
+
 4. Downloading and Configuring Container
 
-- Configure your hosts file inside ansible: `cd /etc/ansible/` configure `hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
+- Configure your hosts file inside ansible: `cd /etc/ansible/` configure `nano /etc/ansible/hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/hostsfile.PNG)
 
@@ -179,7 +180,10 @@ We will create an ELK server within a virtual network. Specifically we will:
 	```bash
 	ansible-playbook install-elk.yml
 	```
-</details> 
+The following screenshot displays the result of running ELK installation YML file.
+ 
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/anbiblepb.PNG)
+
 
 The playbook implements the following tasks:
 
@@ -257,11 +261,23 @@ Enable Service Docker on Boot
                   name: docker
        		  enabled: yes
 ``` 
+After the ELK container is installed, SSH into your container `ssh username@your.ELK-VM.External.IP` and double check that `elk-docker` container is running.
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
 ![docker ps output](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/docker_ps_output.PNG)
 
+
+Verify that you can access your server by navigating to http://[your.ELK-VM.External.IP]:5601/app/kibana. Use the public IP address of your new VM.
+
+You should see this page:
+
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanaweb.png)
+
+If this is what you see, congratulations! You have successfully created an ELK Server!
+</details> 
+
+---
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
 - Web-1 VM: 10.0.0.5
@@ -275,7 +291,7 @@ We have installed the following Beats on these machines:
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
 
-
+---
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
@@ -289,4 +305,5 @@ _TODO: Answer the following questions to fill in the blanks:_
 - _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
 - _Which URL do you navigate to in order to check that the ELK server is running?
 
+---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
