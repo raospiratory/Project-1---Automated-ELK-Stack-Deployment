@@ -106,8 +106,8 @@ We will create an ELK server within a virtual network.
 
 - Notice, in this example that the IP addressing is automatically created a new network space of `10.1.0.0/16`. If your network is different (10.1.0.0 or 10.3.0.0) it is ok as long as you accept the default settings. Azure automatically creates a network that will work.  
 
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/elknet1.png)
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/elknet2.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet1.PNG)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
 
 2. Create a Peer connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
 - Navigate to 'Virtual Network' in the Azure Portal. 
