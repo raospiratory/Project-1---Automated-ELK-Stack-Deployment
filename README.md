@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram]([Diagrams/NetworkDiagram.png](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/tree/main/Diagram))
+![Network Diagram](![Network Diagram](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Diagram/Network%20Diagram.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the Configuration and YAML files may be used to install only certain pieces of it, such as Filebeat.
 
@@ -31,22 +31,23 @@ The main purpose of this network is to expose a load-balanced and monitored inst
 
 Load balancing ensures that the application will be highly available, in addition to restricting inbound access to the network.
 > What aspect of security do load balancers protect?
-	* Load balancers are designed to take a load of traffic and distribute it across multiple resources preventing servers to overload.
-	* Load balancers play an important role in security by defending against distributed denial-of-service (DDoS) attacks. 
+- Load balancers are designed to take a load of traffic and distribute it across multiple resources preventing servers to overload.
+- Load balancers play an important role in security by defending against distributed denial-of-service (DDoS) attacks. 
+
 > What is the advantage of a jump box?
-	* Jump box virtual machine is exposed on the public network to withstand malicious threats and attacks. It is also used to manage other systems and hardens security, it is treated as a single entryway to a server group from within your security zone. 
-	* The advantage of having a jump box is that it limits access to servers that are inaccessible over the network.
+- Jump box virtual machine is exposed on the public network to withstand malicious threats and attacks. It is also used to manage other systems and hardens security, it is treated as a single entryway to a server group from within your security zone. 
+- The advantage of having a jump box is that it limits access to servers that are inaccessible over the network.
 	
 Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to  
 > What does Filebeat watch for?
-	* Filebeat monitors the specified log file or location, collects log events, and forwards them to Elasticsearch or Logstash for indexing. 
-	* Filebeat is used to collect and send log files. 
-	* Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL,  and Docker, including default configurations and Kibana objects for these platforms.
+- Filebeat monitors the specified log file or location, collects log events, and forwards them to Elasticsearch or Logstash for indexing. 
+- Filebeat is used to collect and send log files. 
+- Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL,  and Docker, including default configurations and Kibana objects for these platforms.
 
 > What does Metricbeat record?
-	* Metricbeat helps monitor your server by collecting metrics and statistics that are collected and sent to the specific from the systems and services running on your server. 
-	* Like Filebeat, Metricbeat supports an internal module for collecting statistics from a particular platform. 
-	* You can use these modules and a subset called metric sets to configure how often Metricbeat collects metrics and the specific metrics it collects.
+- Metricbeat helps monitor your server by collecting metrics and statistics that are collected and sent to the specific from the systems and services running on your server. 
+- Like Filebeat, Metricbeat supports an internal module for collecting statistics from a particular platform. 
+- You can use these modules and a subset called metric sets to configure how often Metricbeat collects metrics and the specific metrics it collects.
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
