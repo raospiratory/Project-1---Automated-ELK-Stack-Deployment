@@ -2,17 +2,17 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](![Network Diagram](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Diagram/Network%20Diagram.png)
+![Network Diagram](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Diagram/Network%20Diagram.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the Configuration and YAML files may be used to install only certain pieces of it, such as Filebeat.
 
-  - **[Ansible Configuration] (Ansible/ansible.cfg)**
-  - **[Hosts] (Ansible/hosts)**
-  - **[Elk Installation] (Ansible/install-elk.yml)**
-  - **[Filebeat Configuration] (Ansible/filebeat-configuration.yml)**
-  - **[Filebeat Playbook] (Ansible/filebeat-playbook.yml)**
-  - **[Metricbeat Configuration.yml] (Ansible/metricbeat-configuration.yml)**
-  - **[Metricbeat Playbook.yml] (Ansible/metricbeat-playbook.yml)**
+  - **[Ansible Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/ansible.cfg)**
+  - **[Hosts](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/hosts)**
+  - **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**
+  - **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)**
+  - **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)**
+  - **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)**
+  - **[Metricbeat Playbook.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)**
 
 
 
