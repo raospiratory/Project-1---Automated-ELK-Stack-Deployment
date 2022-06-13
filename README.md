@@ -145,15 +145,21 @@ We will create an ELK server within a virtual network.
 	ssh RedAdmin@jump.box.ip
 	```
 - Check your Ansible container: `sudo docker ps`
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/dockerps.PNG)
+	
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/dockerps.PNG)
 - Locate the container name: `sudo docker container list -a`
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/containerlist.PNG)
+
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/containerlist.PNG)
 - Start the container: `sudo docker container start peaceful_borg`
+	
 - Attach the container: `sudo docker attach peaceful_borg`
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sacontainer.PNG)
+
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sacontainer.PNG)
+
 - Copy the SSH key from the Ansible container on your jump box: cat ~/.ssh/id_rsa.pub
+
 - Configure a new VM using that SSH key.
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
 
 
 </details>
