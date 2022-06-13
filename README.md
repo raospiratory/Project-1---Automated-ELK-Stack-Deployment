@@ -169,7 +169,7 @@ We will create an ELK server within a virtual network.
 The playbook implements the following tasks:
 Configure ELK VM with Docker
 ```yaml
-       	      - name: Confugre ELK VM with Docker
+       	      - name: Configure ELK VM with Docker
         	hosts: elk
                 remote_user: RedAdmin
                 become: true
@@ -232,7 +232,7 @@ Enable Service Docker on Boot
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![docker ps output](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/docker_ps_output.png)
+![docker ps output](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/docker_ps_output.PNG)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
