@@ -85,7 +85,7 @@ A summary of the access policies in place can be found in the table below.
 | Elk Server |          No         |    Local Admin IP    | TCP 5601 | Ubuntu Server 18.04 LTS |
 
 
-### Elk Configuration [Elk Installation] (Ansible/install-elk.yml)
+### Elk Configuration [Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
 > What is the main advantage of automating configuration with Ansible?
