@@ -92,6 +92,7 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 - Ansible is an open source tool with simple configuration management, cloud provisioning and application development. 
 - Allows you to deploy YAML playbooks.
 
+
 <details>
 <summary> <b> Click here to view Steps on Creating an ELK Server. </b> </summary>
 
@@ -163,6 +164,7 @@ We will create an ELK server within a virtual network.
 
 
 </details>
+ 
  
 The playbook implements the following tasks:
 Configure ELK VM with Docker
