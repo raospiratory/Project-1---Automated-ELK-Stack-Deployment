@@ -106,8 +106,8 @@ We will create an ELK server within a virtual network.
 
 - Notice, in this example that the IP addressing is automatically created a new network space of `10.1.0.0/16`. If your network is different (10.1.0.0 or 10.3.0.0) it is ok as long as you accept the default settings. Azure automatically creates a network that will work.  
 
-![] (images/elknet1.png)
-![] (images/elknet2.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/elknet1.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/elknet2.png)
 
 2. Create a Peer connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
 - Navigate to 'Virtual Network' in the Azure Portal. 
@@ -118,7 +118,7 @@ We will create an ELK server within a virtual network.
 
 - Click the `+ Add` button to create a new Peering.
 
-![](images/peerings1.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/peerings1.png)
 
 - Make sure your new Peering has the following settings:
 
@@ -131,8 +131,8 @@ We will create an ELK server within a virtual network.
 		- Red-to-Elk would make sense
 
 - Leave all other settings at their defaults.
-![](images/peerings2.png)
-![](images/peerings3.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/peerings2.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/peerings3.png)
 
 3. Creating a new VM
 
@@ -145,64 +145,64 @@ We will create an ELK server within a virtual network.
 	ssh RedAdmin@jump.box.ip
 	```
 - Check your Ansible container: `sudo docker ps`
-![](images/dockerps.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/dockerps.png)
 - Locate the container name: `sudo docker container list -a`
-![](images/containerlist.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/containerlist.png)
 - Start the container: `sudo docker container start peaceful_borg`
 - Attach the container: `sudo docker attach peaceful_borg`
-![](images/sacontainer.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/sacontainer.png)
 - Copy the SSH key from the Ansible container on your jump box: cat ~/.ssh/id_rsa.pub
 - Configure a new VM using that SSH key.
-![](images/createssh.png)   
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/images/createssh.png)   
 
 
 </details>
  
 The playbook implements the following tasks:
-	o Configure ELK VM with Docker
-	    ```yaml
+Configure ELK VM with Docker
+```yaml
        	      - name: Confugre ELK VM with Docker
         	hosts: elk
                 remote_user: RedAdmin
                 become: true
                 tasks:             
-      	    ``` 
- 	o Install Docker.io
-	    ```yaml
+``` 
+Install Docker.io
+```yaml
        	      - name: Install docker.io
         	apt:
                   update_cache: yes
                   force_apt_get: yes
                   name: docker.io
                   state: present
-      	    ``` 
-	o Install Python3-pip
-	    ```yaml
+``` 
+Install Python3-pip
+```yaml
        	      - name: Install python3-pip
         	apt:
                   force_apt_get: yes
                   name: python3-pip
                   state: present
-      	    ``` 
-	o Install Docker Python Module
-	    ```yaml
+``` 
+Install Docker Python Module
+```yaml
        	      - name: Install python3-pip
         	apt:
                   force_apt_get: yes
                   name: python3-pip
                   state: present
-      	    ``` 
-	o Increase virtual memory
-	    ```yaml
+``` 
+Increase virtual memory
+```yaml
        	      - name: Use more memory
         	sysctl:
                   name: vm.max_map_count
        		  value: 262144
       		  state: present
        		  reload: yes
-      	    ``` 
-	o Download and Launch a Docker ELK Container with ports 5601, 9200, 5044.
-	    ```yaml
+ ``` 
+Download and Launch a Docker ELK Container with ports 5601, 9200, 5044.
+```yaml
        	      - name: Download and launch a docker elk container
          	docker_container:
            	  name: elk
@@ -213,18 +213,18 @@ The playbook implements the following tasks:
           	    - 5601:5601
           	    - 9200:9200
           	    - 5044:5044
-      	    ``` 
-	o Enable Service Docker on Boot
-	    ```yaml
+``` 
+Enable Service Docker on Boot
+```yaml
        	      - name: Enable service docker on boot
         	sysmd:
                   name: docker
        		  enabled: yes
-      	    ``` 
+``` 
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![docker ps output](Images/docker_ps_output.png)
+![docker ps output](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/docker_ps_output.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
