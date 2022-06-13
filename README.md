@@ -96,9 +96,15 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 <details>
 <summary> <b> Click here to view Steps on Creating an ELK Server. </b> </summary>
 
-We will create an ELK server within a virtual network.
+We will create an ELK server within a virtual network. Specifically we will:
+- Create a new vNet
+- Create a Peer Network Connection
+- Create a new VM
+- Create an Ansible Playbook
+- Downloading and Configuring the Container
+- Launch and Expose the Container
 
-####Creating a New vNet
+>Creating a New vNet
 
 1. Create a new vNet located in the same resouce group you have been using. 
 - Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
@@ -110,7 +116,7 @@ We will create an ELK server within a virtual network.
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet1.PNG)
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
 
-2. Create a Peer connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
+2. Create a Peer network connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
 - Navigate to 'Virtual Network' in the Azure Portal. 
 
 - Select your new vNet to view it's details. 
@@ -161,13 +167,24 @@ We will create an ELK server within a virtual network.
 
 - Configure a new VM using that SSH key.
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
+4. Downloading and Configuring Container
 
+- Configure your hosts file inside ansible: `cd /etc/ansible/` configure `hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
 
-</details>
- 
- 
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/hostsfile.PNG)
+
+- Create a Playbook that installs Docker and configures the container
+
+- Run the [ELK playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml): 
+	```bash
+	ansible-playbook install-elk.yml
+	```
+</details> 
+
 The playbook implements the following tasks:
+
 Configure ELK VM with Docker
+
 ```yaml
        	      - name: Configure ELK VM with Docker
         	hosts: elk
@@ -175,7 +192,9 @@ Configure ELK VM with Docker
                 become: true
                 tasks:             
 ``` 
+
 Install Docker.io
+
 ```yaml
        	      - name: Install docker.io
         	apt:
@@ -184,7 +203,9 @@ Install Docker.io
                   name: docker.io
                   state: present
 ``` 
+
 Install Python3-pip
+
 ```yaml
        	      - name: Install python3-pip
         	apt:
@@ -192,7 +213,9 @@ Install Python3-pip
                   name: python3-pip
                   state: present
 ``` 
+
 Install Docker Python Module
+
 ```yaml
        	      - name: Install python3-pip
         	apt:
@@ -201,6 +224,7 @@ Install Docker Python Module
                   state: present
 ``` 
 Increase virtual memory
+
 ```yaml
        	      - name: Use more memory
         	sysctl:
@@ -208,8 +232,10 @@ Increase virtual memory
        		  value: 262144
       		  state: present
        		  reload: yes
- ``` 
+``` 
+
 Download and Launch a Docker ELK Container with ports 5601, 9200, 5044.
+
 ```yaml
        	      - name: Download and launch a docker elk container
          	docker_container:
@@ -222,7 +248,9 @@ Download and Launch a Docker ELK Container with ports 5601, 9200, 5044.
           	    - 9200:9200
           	    - 5044:5044
 ``` 
+
 Enable Service Docker on Boot
+
 ```yaml
        	      - name: Enable service docker on boot
         	sysmd:
