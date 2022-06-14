@@ -25,6 +25,7 @@ This document contains the following details:
 - How to Use the Ansible Build
 
 ---
+
 ### Description of the Topology
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
@@ -40,14 +41,10 @@ Load balancing ensures that the application will be highly available, in additio
 	
 Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to  
 > What does Filebeat watch for?
-- Filebeat monitors the specified log file or location, collects log events, and forwards them to Elasticsearch or Logstash for indexing. 
-- Filebeat is used to collect and send log files. 
-- Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL,  and Docker, including default configurations and Kibana objects for these platforms.
+- Filebeat: collects data about the file system.
 
 > What does Metricbeat record?
-- Metricbeat helps monitor your server by collecting metrics and statistics that are collected and sent to the specific from the systems and services running on your server. 
-- Like Filebeat, Metricbeat supports an internal module for collecting statistics from a particular platform. 
-- You can use these modules and a subset called metric sets to configure how often Metricbeat collects metrics and the specific metrics it collects.
+- Metricbeat: collects machine metrics and statisics, such as uptime.
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
@@ -61,6 +58,7 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 | ELK Server |  Monitoring | 20.242.105.231; 10.1.0.7 |       Linux      | Ubuntu Server 18.04 LTS |
 
 ---
+
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
@@ -85,7 +83,8 @@ A summary of the access policies in place can be found in the table below.
 | Elk Server |          No         |    Local Admin IP    | TCP 5601 | Ubuntu Server 18.04 LTS |
 
 ---
-### Elk Configuration [Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)
+
+### Elk Configuration 
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
 > What is the main advantage of automating configuration with Ansible?
@@ -107,89 +106,93 @@ We will create an ELK server within a virtual network. Specifically we will:
 >Creating a New vNet
 
 1. Create a new vNet located in the same resouce group you have been using. 
-- Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
+	- Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
 
-- Leave the rest of the settings at default.
+	- Leave the rest of the settings at default.
 
-- Notice, in this example that the IP addressing is automatically created a new network space of `10.1.0.0/16`. If your network is different (10.1.0.0 or 10.3.0.0) it is ok as long as you accept the default settings. Azure automatically creates a network that will work.  
+	- Notice, in this example that the IP addressing is automatically created a new network space of `10.1.0.0/16`. If your network is different (10.1.0.0 or 10.3.0.0) it is ok as long as you accept the default settings. Azure automatically creates a network that will work.  
 
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet1.PNG)
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet1.PNG)
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
 
 >Create a Peer Network Connection
+
 2. Create a Peer network connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
-- Navigate to 'Virtual Network' in the Azure Portal. 
+	- Navigate to 'Virtual Network' in the Azure Portal. 
 
-- Select your new vNet to view it's details. 
+	- Select your new vNet to view it's details. 
 
-- Under 'Settings' on the left side, select 'Peerings'.
+	- Under 'Settings' on the left side, select 'Peerings'.
 
-- Click the `+ Add` button to create a new Peering.
+	- Click the `+ Add` button to create a new Peering.
 
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings1.png)
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings1.png)
 
-- Make sure your new Peering has the following settings:
+	- Make sure your new Peering has the following settings:
 
-	- A unique name of the connection from your new vNet to your old vNet.
-		- Elk-to-Red would make sense
+		- A unique name of the connection from your new vNet to your old vNet.
+			- Elk-to-Red would make sense
 
-	- Choose your original RedTeam vNet in the dropdown labeled 'Virtual Network'. This is the network you are connecting to your new vNet and you should only have one option.
+		- Choose your original RedTeam vNet in the dropdown labeled 'Virtual Network'. This is the network you are connecting to your new vNet and you should only have one option.
 
-	- Name the resulting connection from your RedTeam Vnet to your Elk vNet.
-		- Red-to-Elk would make sense
+		- Name the resulting connection from your RedTeam Vnet to your Elk vNet.
+			- Red-to-Elk would make sense
 
-- Leave all other settings at their defaults.
+	- Leave all other settings at their defaults.
 
 The following screenshots displays the results of the new Peering connections with your ELK vNet to your old vNet
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings2.PNG)
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings3.PNG)
 
 >Create a new VM
+
 3. Creating a new VM
 
-- Creating a new Ubuntu VM in your virtual network with the following configures:
-- VM must have at least 4GB of RAM. 
-- IP address must be same as public IP address.
-- The VM must be added to the new region in which you created your new vNet and create a new basic network security group for it.
-- After creating the VM make sure that it works by connecting to it from your Jump-box using `ssh username@jump.box.ip`
-	```bash
-	ssh RedAdmin@104.43.255.56
-	```
-- Check your Ansible container: `sudo docker ps`
+	- Creating a new Ubuntu VM in your virtual network with the following configures:
+	- VM must have at least 4GB of RAM. 
+	- IP address must be same as public IP address.
+	- The VM must be added to the new region in which you created your new vNet and create a new basic network security group for it.
+	- After creating the VM make sure that it works by connecting to it from your Jump-box using `ssh username@jump.box.ip`
+		```bash
+		ssh RedAdmin@104.43.255.56
+		```
+	- Check your Ansible container: `sudo docker ps`
 	
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/dockerps.PNG)
-- Locate the container name: `sudo docker container list -a`
+	- Locate the container name: `sudo docker container list -a`
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/containerlist.PNG)
-- Start the container: `sudo docker container start peaceful_borg`
+	- Start the container: `sudo docker container start peaceful_borg`
 	
-- Attach the container: `sudo docker attach peaceful_borg`
+	- Attach the container: `sudo docker attach peaceful_borg`
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sacontainer.PNG)
 
-- Copy the SSH key from the Ansible container on your jump box: cat ~/.ssh/id_rsa.pub
+	- Copy the SSH key from the Ansible container on your jump box: cat ~/.ssh/id_rsa.pub
 
-- Configure a new VM using that SSH key.
+	- Configure a new VM using that SSH key.
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
 
 >Configuring Container
+
 4. Downloading and Configuring Container
 
-- Configure your hosts file inside ansible: `cd /etc/ansible/` configure `nano /etc/ansible/hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
+	- Configure your hosts file inside ansible: `cd /etc/ansible/` configure `nano /etc/ansible/hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/hostsfile.PNG)
 
-- Create a Playbook that installs Docker and configures the container
+	- Create a Playbook that installs Docker and configures the container
 
-- Run the [ELK playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml): 
-	```bash
-	ansible-playbook install-elk.yml
-	```
+	- Run the [ELK playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml): 
+		```bash
+		ansible-playbook install-elk.yml
+		```
 The following screenshot displays the result of running ELK installation YML file.
  
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/anbiblepb.PNG)
 
 >Creating ELK Playbook
+
 The playbook implements the following tasks:
 
 Configure ELK VM with Docker
@@ -284,18 +287,20 @@ The following screenshot displays the result of running `docker ps` after succes
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknsg.png)
 
-
-Verify that you can access your server by navigating to http://[your.ELK-VM.External.IP]:5601/app/kibana. Use the public IP address of your new VM.
-
+Verify that you can access your server by navigating to `http://[your.ELK-VM.External.IP]:5601/app/kibana`. Use the public IP address of your new VM.
+	```bash
+	http://20.242.105.231:5601/app/kibana
+	```
 You should see this page:
 
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanaweb.png)
 
-If this is what you see, congratulations! You have successfully created an ELK Server!
+If you can get on this page, congratulations! You have successfully created an ELK Server!
 
 </details> 
 
 ---
+
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
 - Web-1 VM: 10.0.0.5
@@ -303,20 +308,40 @@ This ELK server is configured to monitor the following machines:
 - Web-3 VM: 10.0.0.7
 
 We have installed the following Beats on these machines:
-- Filebeat: collects data about the file system.
-- Metricbeat: collects machine metrics, such as uptime.
+- Filebeat
+- Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+
+`Filebeat:`
+- Filebeat monitors the specified log file or location, collects log events, and forwards them to Elasticsearch or Logstash for indexing. 
+- Filebeat is used to collect and send log files. 
+- Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL,  and Docker, including default configurations and Kibana objects for these platforms.
+
+`Metricbeat:`
+- Metricbeat helps monitor your server by collecting metrics and statistics that are collected and sent to the specific from the systems and services running on your server. 
+- Like Filebeat, Metricbeat supports an internal module for collecting statistics from a particular platform. 
+- You can use these modules and a subset called metric sets to configure how often Metricbeat collects metrics and the specific metrics it collects.
+
+<details>
+<summary> <b> Click here to view Steps on Creating Filebeat and Metricbeat. </b> </summary>
+
+
+
+
+</details>
 
 ---
+
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the ELK installation yml file to Ansible container folder /etc/ansible/files/
-- Update the hosts file /etc/ansible/hosts to include ELK server IP 10.1.0.7 ![ELK Host] (Images/elkhosts.PNG)
-- Run the playbook ansible-playbook install-elk.yml, and navigate to /etc/ansible/ to check that the installation worked as expected.
+- Copy the ELK installation yml file to Ansible container folder `/etc/ansible/files/`
+	![] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.PNG)
+- Update the hosts file `/etc/ansible/hosts` to include ELK server IP 10.1.0.7 
+	![ELK Host] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
+- Run the playbook ansible-playbook `install-elk.yml`, and navigate to `/etc/ansible/` to check that the installation worked as expected.
 
 _TODO: Answer the following questions to fill in the blanks:_
 - _Which file is the playbook? Where do you copy it?_
