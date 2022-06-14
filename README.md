@@ -189,7 +189,7 @@ The following screenshots displays the results of the new Peering connections wi
 		```
 The following screenshot displays the result of running ELK installation YML file.
  
-	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/anbiblepb.PNG)
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblepb.PNG)
 
 >Creating ELK Playbook
 
@@ -272,9 +272,9 @@ Enable Service Docker on Boot
 
 After the ELK container is installed, SSH into your container `ssh username@your.ELK-VM.External.IP` and double check that `elk-docker` container is running.
 	```bash
-	ssh RedAdmin@10.1.0.7
+		ssh RedAdmin@10.1.0.7
 	```
-
+	
 The screenshot displays the results when successfully connected to ELK via SSH 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sshelk.PNG)
 
@@ -285,15 +285,16 @@ The following screenshot displays the result of running `docker ps` after succes
 >Restrict access to the ELK VM using Azure network security groups. 
 - You will need to add your public IP address to a whitelist. Opening virtual network existing NSG and create an incoming rule for your security group that allows TCP traffic port 5601 from your public IP address.
 
-	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknsg.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknsg.png)
 
 Verify that you can access your server by navigating to `http://[your.ELK-VM.External.IP]:5601/app/kibana`. Use the public IP address of your new VM.
 	```bash
-	http://20.242.105.231:5601/app/kibana
+		http://20.242.105.231:5601/app/kibana
 	```
+	
 You should see this page:
 
-	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanaweb.png)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanaweb.png)
 
 If you can get on this page, congratulations! You have successfully created an ELK Server!
 
