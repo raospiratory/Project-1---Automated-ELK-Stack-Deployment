@@ -106,7 +106,7 @@ We will create an ELK server within a virtual network. Specifically we will:
 
 >Creating a New vNet
 
-1. Create a new vNet located in the same resouce group you have been using. 
+#### 1. Create a new vNet located in the same resouce group you have been using. 
 - Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
 
 - Leave the rest of the settings at default.
@@ -116,7 +116,9 @@ We will create an ELK server within a virtual network. Specifically we will:
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet1.PNG)
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
 
-2. Create a Peer network connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
+>Create a Peer Network Connection
+#### 2. Create a Peer network connection between your vNets. 
+- This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
 - Navigate to 'Virtual Network' in the Azure Portal. 
 
 - Select your new vNet to view it's details. 
@@ -138,10 +140,13 @@ We will create an ELK server within a virtual network. Specifically we will:
 		- Red-to-Elk would make sense
 
 - Leave all other settings at their defaults.
+
+The following screenshots displays the results of the new Peering connections with your ELK vNet to your old vNet
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings2.PNG)
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings3.PNG)
 
-3. Creating a new VM
+>Create a new VM
+#### 3. Creating a new VM
 
 - Creating a new Ubuntu VM in your virtual network with the following configures:
 - VM must have at least 4GB of RAM. 
@@ -168,7 +173,8 @@ We will create an ELK server within a virtual network. Specifically we will:
 - Configure a new VM using that SSH key.
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
 
-4. Downloading and Configuring Container
+>Configuring Container
+#### 4. Downloading and Configuring Container
 
 - Configure your hosts file inside ansible: `cd /etc/ansible/` configure `nano /etc/ansible/hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
 
@@ -184,7 +190,7 @@ The following screenshot displays the result of running ELK installation YML fil
  
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/anbiblepb.PNG)
 
-
+>Creating Playbook
 The playbook implements the following tasks:
 
 Configure ELK VM with Docker
@@ -261,6 +267,7 @@ Enable Service Docker on Boot
                   name: docker
        		  enabled: yes
 ``` 
+
 After the ELK container is installed, SSH into your container `ssh username@your.ELK-VM.External.IP` and double check that `elk-docker` container is running.
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
