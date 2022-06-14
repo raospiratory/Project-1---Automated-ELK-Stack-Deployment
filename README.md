@@ -506,7 +506,26 @@ SSH into the control node and follow the steps below:
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
 
-
+|                  Commands                 |                            Explanation                           |
+|:-----------------------------------------:|:----------------------------------------------------------------:|
+|         ssh username@[Jump.box.IP]        |                      Connect to Jump-Box VM                      |
+|                 ssh-keygen                |    Generates a public SSH key to access (Needed to set up VM)    |
+|           cat ~./ssh/id_rsa.pub           |                        Read the SSH keygen                       |
+|                 docker ps                 |             Docker command to list running containers            |
+|          docker start [CONTAINER]         |                         Start a container                        |
+|         docker attach [CONTAINER]         |                  Attaches to a running container                 |
+|          docker stop [CONTAINER]          |                     Stop a running container                     |
+|              cd /etc/ansible              |                 Change directory to /etc/ansible                 |
+|          nano  /etc/ansible/hosts         |                          Edit hosts file                         |
+|       nano /etc/ansible/ansible.cfg       |                  Edit ansible configuration file                 |
+|          nano filebeat-config.yml         |               Edit Filebeat configuration yml file               |
+|         nano filebeat-playbook.yml        |                  Edit Filebeat playbook yml file                 |
+|         nano metricbeat-config.yml        |              Edit Metricbeat configuration yml file              |
+|        nano metricbeat-playbook.yml       |                 Edit Metricbeat playbook yml file                |
+| ansible-playbook [location][filename.yml] |                     Execute ansible playbook                     |
+|             curl [options/URL]            | Client URL: Enables data transfer over various network protocols |
+|           dpkg -i [package-file]          |      Package manager for Debian: -i: installing package file     |
+|                    exit                   |                      Cause the shell to exit                     |
 
 
 ---
