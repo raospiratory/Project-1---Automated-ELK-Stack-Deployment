@@ -106,7 +106,7 @@ We will create an ELK server within a virtual network. Specifically we will:
 
 >Creating a New vNet
 
-#### 1. Create a new vNet located in the same resouce group you have been using. 
+1. Create a new vNet located in the same resouce group you have been using. 
 - Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
 
 - Leave the rest of the settings at default.
@@ -117,8 +117,7 @@ We will create an ELK server within a virtual network. Specifically we will:
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknet2.PNG)
 
 >Create a Peer Network Connection
-#### 2. Create a Peer network connection between your vNets. 
-- This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
+2. Create a Peer network connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
 - Navigate to 'Virtual Network' in the Azure Portal. 
 
 - Select your new vNet to view it's details. 
@@ -146,7 +145,7 @@ The following screenshots displays the results of the new Peering connections wi
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/peerings3.PNG)
 
 >Create a new VM
-#### 3. Creating a new VM
+3. Creating a new VM
 
 - Creating a new Ubuntu VM in your virtual network with the following configures:
 - VM must have at least 4GB of RAM. 
@@ -154,7 +153,7 @@ The following screenshots displays the results of the new Peering connections wi
 - The VM must be added to the new region in which you created your new vNet and create a new basic network security group for it.
 - After creating the VM make sure that it works by connecting to it from your Jump-box using `ssh username@jump.box.ip`
 	```bash
-	ssh RedAdmin@jump.box.ip
+	ssh RedAdmin@104.43.255.56
 	```
 - Check your Ansible container: `sudo docker ps`
 	
@@ -174,7 +173,7 @@ The following screenshots displays the results of the new Peering connections wi
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/createssh.PNG)   
 
 >Configuring Container
-#### 4. Downloading and Configuring Container
+4. Downloading and Configuring Container
 
 - Configure your hosts file inside ansible: `cd /etc/ansible/` configure `nano /etc/ansible/hosts` and input the IP addresses of your VM with `ansible_python_intrepreter=/usr/bin/python3`
 
@@ -190,7 +189,7 @@ The following screenshot displays the result of running ELK installation YML fil
  
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/anbiblepb.PNG)
 
->Creating Playbook
+>Creating ELK Playbook
 The playbook implements the following tasks:
 
 Configure ELK VM with Docker
@@ -269,10 +268,21 @@ Enable Service Docker on Boot
 ``` 
 
 After the ELK container is installed, SSH into your container `ssh username@your.ELK-VM.External.IP` and double check that `elk-docker` container is running.
+	```bash
+	ssh RedAdmin@10.1.0.7
+	```
+
+The screenshot displays the results when successfully connected to ELK via SSH 
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sshelk.PNG)
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
 ![docker ps output](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/docker_ps_output.PNG)
+
+>Restrict access to the ELK VM using Azure network security groups. 
+- You will need to add your public IP address to a whitelist. Opening virtual network existing NSG and create an incoming rule for your security group that allows TCP traffic port 5601 from your public IP address.
+
+	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknsg.png)
 
 
 Verify that you can access your server by navigating to http://[your.ELK-VM.External.IP]:5601/app/kibana. Use the public IP address of your new VM.
@@ -282,6 +292,7 @@ You should see this page:
 	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanaweb.png)
 
 If this is what you see, congratulations! You have successfully created an ELK Server!
+
 </details> 
 
 ---
