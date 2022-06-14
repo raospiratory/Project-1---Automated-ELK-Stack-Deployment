@@ -47,7 +47,7 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - Metricbeat: collects machine metrics and statisics, such as uptime.
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
+
 
 |    Name    |   Function  |        IP Address        | Operating System |          Server         |
 |:----------:|:-----------:|:------------------------:|:----------------:|:-----------------------:|
@@ -484,16 +484,24 @@ The screenshot display the results of ELK stack successfully receiving metrics.
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the ELK installation yml file to Ansible container folder `/etc/ansible/files/`
-	![] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.PNG)
-- Update the hosts file `/etc/ansible/hosts` to include ELK server IP 10.1.0.7 
-	![ELK Host] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
-- Run the playbook ansible-playbook `install-elk.yml`, and navigate to `/etc/ansible/` to check that the installation worked as expected.
+- Copy the **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**, **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** to Ansible container folder **`/etc/ansible/files/`**
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
+
+- Copy the **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)** and **[Metricbeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)** to Ansible container folder **`/etc/ansible/roles`**
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
+
+- Update the hosts file **`/etc/ansible/hosts`** to include **`ELK server IP 10.1.0.7`**
+
+![ELK Host](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
+
+- Run the Filebeat and Metricbeat playbooks:
+**`ansible-playbook filebeat-playbook.yml`**
+**`ansible-playbook metricbeat-playbook.yml`**
+
+- Navigate to **`http://[your.ELK-VM.External.IP]:5601/app/kibana`** to check that the installation worked as expected.
+
 
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
@@ -505,10 +513,11 @@ _As a **Bonus**, provide the specific commands the user will need to run to down
 
 ### Resources
 
--[What is Elk?](https://www.elastic.co/what-is/elk-stack)
--[Complete ELK Guide](https://logz.io/learn/complete-guide-elk-stack)
--[ELK-docker Readme](https://elk-docker.readthedocs.io/#prerequisites)
--[Filebeat Container Documentation](https://www.elastic.co/beats/filebeat)
--[Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
--[Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
--[Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
+- [What is Elk?](https://www.elastic.co/what-is/elk-stack)
+- [Complete ELK Guide](https://logz.io/learn/complete-guide-elk-stack)
+- [ELK-docker Readme](https://elk-docker.readthedocs.io/#prerequisites)
+- [Filebeat Container Documentation](https://www.elastic.co/beats/filebeat)
+- [Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
+- [Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
+- [Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
+- [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
