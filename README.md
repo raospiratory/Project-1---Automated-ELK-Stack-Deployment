@@ -189,7 +189,7 @@ The following screenshots displays the results of the new Peering connections wi
 		```
 The following screenshot displays the result of running ELK installation YML file.
  
-	![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblepb.PNG)
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblepb.PNG)
 
 >Creating ELK Playbook
 
@@ -271,9 +271,10 @@ Enable Service Docker on Boot
 ``` 
 
 After the ELK container is installed, SSH into your container `ssh username@your.ELK-VM.External.IP` and double check that `elk-docker` container is running.
-	```bash
-		ssh RedAdmin@10.1.0.7
-	```
+
+```bash
+   ssh RedAdmin@10.1.0.7
+```
 	
 The screenshot displays the results when successfully connected to ELK via SSH 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sshelk.PNG)
@@ -288,9 +289,10 @@ The following screenshot displays the result of running `docker ps` after succes
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elknsg.png)
 
 Verify that you can access your server by navigating to `http://[your.ELK-VM.External.IP]:5601/app/kibana`. Use the public IP address of your new VM.
-	```bash
-		http://20.242.105.231:5601/app/kibana
-	```
+
+```bash
+   http://20.242.105.231:5601/app/kibana
+```
 	
 You should see this page:
 
@@ -327,10 +329,154 @@ These Beats allow us to collect the following information from each machine:
 <details>
 <summary> <b> Click here to view Steps on Creating Filebeat and Metricbeat. </b> </summary>
 
+We will create two tools that will help our ELK monitoring server which are Filebeat and Metricbeat. Specifically we will: 
+
+- Install Filebeat and Metricbeat on the Web VM's
+- Create the Filebeat and Metricbeat Configuration File
+- Create a Filebeat and Metricbeat Installation Playbook
+- Verify Filebeat and Metricbeat is Installed
+
+>Installing Filebeat and Metricbeat on DVWA Container 
+1. Make sure that ELK container is running: 
+	- Navigate to Kibana: `http://[your.ELK-VM.External.IP]:5601/app/kibana`. Use public IP address of the ELK server that you created.
+
+	- If Kibana is not up and running, open a terminal on your PC and SSH into ELK Server and start your ELK-docker.
+		- Run `docker container list -a`
+		- `sudo docker start elk`
+
+2. Use ELK's server GUI to navigate and install Filebeat instructions for Linux. 
+	- Navigate to your ELK server's IP: 
+		- Click on `Add log data`
+		- Select `System Logs`
+		- Click on `DEB` tab under Getting Started
+3. Using ELK's server GUI to navigate and install Metricbeat instructions for Linux. 
+	- Naviate to your ELK's server's IP:
+		- Click on 'Add metric data`
+		- Select `Docker metrics`
+		- Click on `DEB` tab under Getting Started
+
+>Create Filebeat and Metricbeat Configuration File
+1. We will create and edit the Filebeat and Metricbeat configuration file. 
+	- Start by opening a terminal and SSH into your Jump-box and start up the Ansible container. 
+	- Navigate to our Ansible container file and edit the [Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml) and [Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml) configuration files.
+	- Username will be `elastic` and the password is `changeme`
+Scroll down to line #1106 and replace the IP address with the IP address of your ELK VM.
+	```bash
+	output.elasticsearch:
+	hosts: ["10.1.0.7:9200"]
+	username: "elastic"
+	password: "changeme"
+	```
+Scroll down to line #1806 and replace the IP address with the IP address of your ELK VM.
+```bash
+   setup.kibana:
+   host: "10.1.0.7:5601"
+```
+
+When finished save both files in `/etc/ansible/files`
+
+>Creating Filebeat and Metricbeat Installation Playbook
+1. Create [Filebeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml) and [Metricbeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml) Playbooks and save it in `/etc/ansible/roles` directory.
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
+	
+First, `nano filebeat-playbook.yml` with Filebeat template below:
+```yaml
+- name: installing and launching filebeat
+  hosts: webservers
+  become: yes
+  tasks:
+
+  - name: download filebeat deb
+    command: curl -L -O curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.1-amd64.deb
+
+  - name: install filebeat deb
+    command: dpkg -i filebeat-7.6.1-amd64.deb
+
+  - name: drop in filebeat.yml
+    copy:
+      src: /etc/ansible/files/filebeat-config.yml
+      dest: /etc/filebeat/filebeat.yml
+
+  - name: enable and configure system module
+    command: filebeat modules enable system
+
+  - name: setup filebeat
+    command: filebeat setup
+
+  - name: start filebeat service
+    command: service filebeat start
+
+  - name: enable service filebeat on boot
+    systemd:
+      name: filebeat
+      enabled: yes
+```
+
+Next, `nano metricbeat-playbook.yml` with Metricbeat template below:
+```yaml
+- name: Install metric beat
+  hosts: webservers
+  become: true
+  tasks:
+    # Use command module
+  - name: Download metricbeat
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.6.1-amd64.deb
+
+    # Use command module
+  - name: install metricbeat
+    command: dpkg -i metricbeat-7.6.1-amd64.deb
+
+    # Use copy module
+  - name: drop in metricbeat config
+    copy:
+      src: /etc/ansible/files/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
+
+    # Use command module
+  - name: enable and configure docker module for metric beat
+    command: metricbeat modules enable docker
+
+    # Use command module
+  - name: setup metric beat
+    command: metricbeat setup
+
+    # Use command module
+  - name: start metric beat
+    command: service metricbeat start
+
+    # Use systemd module
+  - name: enable service metricbeat on boot
+    systemd:
+      name: metricbeat
+      enabled: yes
+
+```
+
+2. Run both playbooks to confirm that it works. `ansible-playbook filebeat-playbook.yml` and `ansible-playbook metricbeat-playbook.yml`
+
+This screenshot displays the results for filebeat-playbook: 
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/runfbpb.png)
 
 
+This screenshot displays the results for metricbeat-playbook:
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/runmbpb.png)
+
+
+3. Verify that the playbook works by navigating to the Filebeat and Metricbeat installation page on the ELK Server GUI and under Step 5: Module Status and click on `Check Data`. 
+
+The screenshot display the results of ELK stack successfully receiving logs.
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanafilebeatlogs.PNG)
+
+The screenshot display the results of ELK stack successfully receiving metrics.
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/kibanadockermetrics.PNG)
 
 </details>
+
 
 ---
 
@@ -351,3 +497,18 @@ _TODO: Answer the following questions to fill in the blanks:_
 
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+
+
+
+
+---
+
+### Resources
+
+-[What is Elk?](https://www.elastic.co/what-is/elk-stack)
+-[Complete ELK Guide](https://logz.io/learn/complete-guide-elk-stack)
+-[ELK-docker Readme](https://elk-docker.readthedocs.io/#prerequisites)
+-[Filebeat Container Documentation](https://www.elastic.co/beats/filebeat)
+-[Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
+-[Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
+-[Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
