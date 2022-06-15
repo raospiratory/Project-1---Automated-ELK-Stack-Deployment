@@ -488,6 +488,7 @@ In order to use the playbook, you will need to have an Ansible control node alre
 
 SSH into the control node and follow the steps below:
 - Copy the **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**, **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** to Ansible container folder **`/etc/ansible/files/`**
+<<<<<<< HEAD
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
 
@@ -570,6 +571,25 @@ The screenshot display the results of Kibana logs when running the scripts.
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/networktraffic.png)
 
 </details>
+=======
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
+
+- Copy the **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)** and **[Metricbeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)** to Ansible container folder **`/etc/ansible/roles`**
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
+
+- Update the hosts file **`/etc/ansible/hosts`** to include **`ELK server IP 10.1.0.7`**
+
+![ELK Host](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
+
+- Run the Filebeat and Metricbeat playbooks:
+**`ansible-playbook filebeat-playbook.yml`**
+**`ansible-playbook metricbeat-playbook.yml`**
+
+- Navigate to **`http://[your.ELK-VM.External.IP]:5601/app/kibana`** to check that the installation worked as expected.
+
+>>>>>>> dca3f1e307ed75e6d29bfa33b8718f3d885fa05f
 
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
@@ -607,4 +627,8 @@ _As a **Bonus**, provide the specific commands the user will need to run to down
 - [Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
 - [Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
 - [Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
+<<<<<<< HEAD
 - [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
+=======
+- [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
+>>>>>>> dca3f1e307ed75e6d29bfa33b8718f3d885fa05f
