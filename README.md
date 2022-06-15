@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Diagram/Network%20Diagram.png)
+![Network Diagram](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Diagram/NetworkDiagram.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the Configuration and YAML files may be used to install only certain pieces of it, such as Filebeat.
 
@@ -57,7 +57,7 @@ The configuration details of each machine may be found below.
 |  Web-3 VM  | DVWA Server |         10.0.0.7         |       Linux      | Ubuntu Server 18.04 LTS |
 | ELK Server |  Monitoring | 20.242.105.231; 10.1.0.7 |       Linux      | Ubuntu Server 18.04 LTS |
 
-_Note: In addition to above, Azure has provisioned a **load balancer** in front of all the machines except for Jump-Box. The load balancer's target are organized into the following availability zones: ** Web-1, Web-2, Web-3**_
+_Note: In addition to above, Azure has provisioned a **load balancer** in front of all the machines except for Jump-Box. The load balancer's target are organized into the following availability zones: **Web-1, Web-2, Web-3**_
 
 ---
 
@@ -108,6 +108,7 @@ We will create an ELK server within a virtual network. Specifically we will:
 >Creating a New vNet
 
 1. Create a new vNet located in the same resouce group you have been using. 
+
 	- Make sure this vNet is located in a _new_ region and not the same region as your other VM's.
 
 	- Leave the rest of the settings at default.
@@ -120,6 +121,7 @@ We will create an ELK server within a virtual network. Specifically we will:
 >Create a Peer Network Connection
 
 2. Create a Peer network connection between your vNets. This will allow traffic to pass between you vNets and regions. This peer connection will make both a connection from your first vNet to your second vNet and a reverse connection from your second vNet back to your first vNet. This will allow traffic to pass in both directions.
+	
 	- Navigate to 'Virtual Network' in the Azure Portal. 
 
 	- Select your new vNet to view it's details. 
@@ -341,6 +343,7 @@ We will create two tools that will help our ELK monitoring server which are File
 
 >Installing Filebeat and Metricbeat on DVWA Container 
 1. Make sure that ELK container is running: 
+	
 	- Navigate to Kibana: `http://[your.ELK-VM.External.IP]:5601/app/kibana`. Use public IP address of the ELK server that you created.
 
 	- If Kibana is not up and running, open a terminal on your PC and SSH into ELK Server and start your ELK-docker.
@@ -348,11 +351,13 @@ We will create two tools that will help our ELK monitoring server which are File
 		- `sudo docker start elk`
 
 2. Use ELK's server GUI to navigate and install Filebeat instructions for Linux. 
+	
 	- Navigate to your ELK server's IP: 
 		- Click on `Add log data`
 		- Select `System Logs`
 		- Click on `DEB` tab under Getting Started
 3. Using ELK's server GUI to navigate and install Metricbeat instructions for Linux. 
+	
 	- Naviate to your ELK's server's IP:
 		- Click on 'Add metric data`
 		- Select `Docker metrics`
@@ -360,26 +365,29 @@ We will create two tools that will help our ELK monitoring server which are File
 
 >Create Filebeat and Metricbeat Configuration File
 1. We will create and edit the Filebeat and Metricbeat configuration file. 
+	
 	- Start by opening a terminal and SSH into your Jump-box and start up the Ansible container. 
-	- Navigate to our Ansible container file and edit the [Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml) and [Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml) configuration files.
+	- Navigate to our Ansible container file and edit the **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** configuration files.
 	- Username will be `elastic` and the password is `changeme`
+
 Scroll down to line #1106 and replace the IP address with the IP address of your ELK VM.
-	```bash
+```bash
 	output.elasticsearch:
 	hosts: ["10.1.0.7:9200"]
 	username: "elastic"
 	password: "changeme"
-	```
+```
+
 Scroll down to line #1806 and replace the IP address with the IP address of your ELK VM.
 ```bash
-   setup.kibana:
-   host: "10.1.0.7:5601"
+  	setup.kibana:
+   	host: "10.1.0.7:5601"
 ```
 
 When finished save both files in `/etc/ansible/files`
 
 >Creating Filebeat and Metricbeat Installation Playbook
-1. Create [Filebeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml) and [Metricbeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml) Playbooks and save it in `/etc/ansible/roles` directory.
+1. Create **[Filebeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)** and **[Metricbeat](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)** Playbooks and save it in `/etc/ansible/roles` directory.
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
 	
@@ -468,7 +476,7 @@ This screenshot displays the results for metricbeat-playbook:
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/runmbpb.png)
 
 
-3. Verify that the playbook works by navigating to the Filebeat and Metricbeat installation page on the ELK Server GUI and under Step 5: Module Status and click on `Check Data`. 
+3. Verify that the playbook works by navigating to the Filebeat and Metricbeat installation page on the ELK Server GUI and under `Step 5: Module Status` and click on `Check Data`. 
 
 The screenshot display the results of ELK stack successfully receiving logs.
 
@@ -487,8 +495,7 @@ The screenshot display the results of ELK stack successfully receiving metrics.
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**, **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** to Ansible container folder **`/etc/ansible/files/`**
-<<<<<<< HEAD
+- Copy the **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**, **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** to Ansible container folder **`/etc/ansible/files/`**
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
 
@@ -500,19 +507,23 @@ SSH into the control node and follow the steps below:
 
 ![ELK Host](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
 
-- Run the Filebeat and Metricbeat playbooks:
-**`ansible-playbook filebeat-playbook.yml`**
-**`ansible-playbook metricbeat-playbook.yml`**
+- Run the ELK, Filebeat and Metricbeat playbooks:
+```
+	ansible-playbook install-elk.yml
+	ansible-playbook filebeat-playbook.yml
+	ansible-playbook metricbeat-playbook.yml
+```
 
 - Navigate to **`http://[your.ELK-VM.External.IP]:5601/app/kibana`** to check that the installation worked as expected.
 
-
 <details>
 <summary> <b> Click here to view how to verify Elk Server is working with Filebeat and Metricbeat. </b> </summary>
+
 We will verify ELK Server is working with Filebeat and Metricbeat by pulling logs and metrics from our web VM servers.
 
 Three tasks is implemented to test if the ELK server is working by pulling both logs and metrics from our web VM servers we create by:
-1. SSH Barrage: Generating a high amount of failed SSH login attempts.
+
+**1. SSH Barrage: Generating a high amount of failed SSH login attempts.**
 - Run `ssh username@ip.of.web.vm`
 - An error should occur as shown in the screenshot below:
 
@@ -541,7 +552,7 @@ The screenshot display the results of Kibana logs when running the scripts.
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/scriptsshdeny.png)
 
-2. Linux Stress: Generating a high amount of CPU usage on VM servers to verify that Kibana picks up data.
+**2. Linux Stress: Generating a high amount of CPU usage on VM servers to verify that Kibana picks up data.**
 - While in Jump-box go inside the container and login to your web server VM.
 ```bash
    $sudo docker container list -a 
@@ -552,11 +563,11 @@ The screenshot display the results of Kibana logs when running the scripts.
 - SSH into your web VM: `ssh username@web.ip.vm`
 - Run command: `sudo apt install stress` which installs a stress program.
 - Run command: `sudo stress --cpu 1` which allows stress to run for a minute. 
-- View metrics on Kibana which will show on screenshot display below:
+- View metrics on Kibana which will show CPU usage on screenshot display below:
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/cpu.png)
 
-3. wget-DoS: Generating a high amount of web requests to our VM servers to make sure that Kibana picks up data.
+**3. wget-DoS: Generating a high amount of web requests to our VM servers to make sure that Kibana picks up data.**
 - Log into Jump-Box VM and run command `wget ip.of.web.vm`: you will receive an index.html file downloaded from your web VM to your jump-box.
 - Write a loop script that will create 1000 web requests on the 10.0.0.5 server and downloaded files onto your jump-box. 
 ```bash
@@ -566,30 +577,11 @@ The screenshot display the results of Kibana logs when running the scripts.
    done;
 ```
 
-- View metrics on Kibana which will show on screenshot display below:
+- View metrics on Kibana which will show the Load, Memory Usage, and Network Traffic on screenshot display below:
 
 ![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/networktraffic.png)
 
 </details>
-=======
-
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
-
-- Copy the **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)** and **[Metricbeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)** to Ansible container folder **`/etc/ansible/roles`**
-
-![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
-
-- Update the hosts file **`/etc/ansible/hosts`** to include **`ELK server IP 10.1.0.7`**
-
-![ELK Host](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
-
-- Run the Filebeat and Metricbeat playbooks:
-**`ansible-playbook filebeat-playbook.yml`**
-**`ansible-playbook metricbeat-playbook.yml`**
-
-- Navigate to **`http://[your.ELK-VM.External.IP]:5601/app/kibana`** to check that the installation worked as expected.
-
->>>>>>> dca3f1e307ed75e6d29bfa33b8718f3d885fa05f
 
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
@@ -627,8 +619,4 @@ _As a **Bonus**, provide the specific commands the user will need to run to down
 - [Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
 - [Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
 - [Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
-<<<<<<< HEAD
 - [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
-=======
-- [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
->>>>>>> dca3f1e307ed75e6d29bfa33b8718f3d885fa05f
