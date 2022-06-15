@@ -11,8 +11,8 @@ These files have been tested and used to generate a live ELK deployment on Azure
   - **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**
   - **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)**
   - **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)**
-  - **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)**
-  - **[Metricbeat Playbook.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)**
+  - **[Metricbeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)**
+  - **[Metricbeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)**
 
 
 
@@ -47,7 +47,7 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - Metricbeat: collects machine metrics and statisics, such as uptime.
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
+
 
 |    Name    |   Function  |        IP Address        | Operating System |          Server         |
 |:----------:|:-----------:|:------------------------:|:----------------:|:-----------------------:|
@@ -57,6 +57,8 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 |  Web-3 VM  | DVWA Server |         10.0.0.7         |       Linux      | Ubuntu Server 18.04 LTS |
 | ELK Server |  Monitoring | 20.242.105.231; 10.1.0.7 |       Linux      | Ubuntu Server 18.04 LTS |
 
+_Note: In addition to above, Azure has provisioned a **load balancer** in front of all the machines except for Jump-Box. The load balancer's target are organized into the following availability zones: ** Web-1, Web-2, Web-3**_
+
 ---
 
 ### Access Policies
@@ -64,11 +66,11 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 The machines on the internal network are not exposed to the public Internet. 
 
 Only the Jump Box Provisioner machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- Add whitelisted IP addresses: Local Admin, Workstation (My Personal IP)
+- Add whitelisted IP addresses: Local Admin IP, Workstation (My Personal IP)
 
 Machines within the network can only be accessed by Workstation (My IP) and Jump Box Provisioner.
 > Which machine did you allow to access your ELK VM?
-- Jump Box Provisioner IP: 10.0.0.1 via SSH Port 22 
+- Jump Box Provisioner IP: 10.0.0.4 via SSH Port 22 
 > What was its IP address?
 - Local Admin IP, Workstation (My Personal IP) via port TCP 5601
 
@@ -319,12 +321,13 @@ These Beats allow us to collect the following information from each machine:
 `Filebeat:`
 - Filebeat monitors the specified log file or location, collects log events, and forwards them to Elasticsearch or Logstash for indexing. 
 - Filebeat is used to collect and send log files. 
-- Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL,  and Docker, including default configurations and Kibana objects for these platforms.
+- Filebeat can be installed on almost any operating system, including  Docker containers. It also contains internal modules for specific platforms such as Apache, MySQL, and Docker, including default configurations and Kibana objects for these platforms.
 
 `Metricbeat:`
 - Metricbeat helps monitor your server by collecting metrics and statistics that are collected and sent to the specific from the systems and services running on your server. 
 - Like Filebeat, Metricbeat supports an internal module for collecting statistics from a particular platform. 
 - You can use these modules and a subset called metric sets to configure how often Metricbeat collects metrics and the specific metrics it collects.
+- We use it for failed SSH login attempts, sudo escalations, and CPU/RAM statistics.
 
 <details>
 <summary> <b> Click here to view Steps on Creating Filebeat and Metricbeat. </b> </summary>
@@ -484,31 +487,124 @@ The screenshot display the results of ELK stack successfully receiving metrics.
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the ELK installation yml file to Ansible container folder `/etc/ansible/files/`
-	![] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.PNG)
-- Update the hosts file `/etc/ansible/hosts` to include ELK server IP 10.1.0.7 
-	![ELK Host] (https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
-- Run the playbook ansible-playbook `install-elk.yml`, and navigate to `/etc/ansible/` to check that the installation worked as expected.
+- Copy the **[Elk Installation](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/install-elk.yml)**, **[Filebeat Configuration](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-configuration.yml)** and **[Metricbeat Configuration.yml](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-configuration.yml)** to Ansible container folder **`/etc/ansible/files/`**
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/ansiblefiles.png)
+
+- Copy the **[Filebeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/filebeat-playbook.yml)** and **[Metricbeat Playbook](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Ansible/metricbeat-playbook.yml)** to Ansible container folder **`/etc/ansible/roles`**
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/fmplaybook.png)
+
+- Update the hosts file **`/etc/ansible/hosts`** to include **`ELK server IP 10.1.0.7`**
+
+![ELK Host](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/elkhosts.PNG)
+
+- Run the Filebeat and Metricbeat playbooks:
+**`ansible-playbook filebeat-playbook.yml`**
+**`ansible-playbook metricbeat-playbook.yml`**
+
+- Navigate to **`http://[your.ELK-VM.External.IP]:5601/app/kibana`** to check that the installation worked as expected.
+
+
+<details>
+<summary> <b> Click here to view how to verify Elk Server is working with Filebeat and Metricbeat. </b> </summary>
+We will verify ELK Server is working with Filebeat and Metricbeat by pulling logs and metrics from our web VM servers.
+
+Three tasks is implemented to test if the ELK server is working by pulling both logs and metrics from our web VM servers we create by:
+1. SSH Barrage: Generating a high amount of failed SSH login attempts.
+- Run `ssh username@ip.of.web.vm`
+- An error should occur as shown in the screenshot below:
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/sshdeny.png)
+
+- Write a script that creates 1000 login attempts on the webserver 10.0.0.5.  
+```bash
+   for i in {1..1000};
+   do
+    ssh sysadmin@10.0.0.5;
+   done;
+```
+
+- Write a script that creates a nested loop that generates SSH login attempts across all 3 of your web-servers VM's.
+```bash
+   while true;
+   do
+    for i in {5..7};
+     do
+      ssh sysadmin@10.0.0.$i;
+     done;
+   done
+```
+
+The screenshot display the results of Kibana logs when running the scripts.
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/scriptsshdeny.png)
+
+2. Linux Stress: Generating a high amount of CPU usage on VM servers to verify that Kibana picks up data.
+- While in Jump-box go inside the container and login to your web server VM.
+```bash
+   $sudo docker container list -a 
+   $sudo docker start [CONTAINER NAME]
+   $sudo docker attach [CONTAINER NAME]
+```
+
+- SSH into your web VM: `ssh username@web.ip.vm`
+- Run command: `sudo apt install stress` which installs a stress program.
+- Run command: `sudo stress --cpu 1` which allows stress to run for a minute. 
+- View metrics on Kibana which will show on screenshot display below:
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/cpu.png)
+
+3. wget-DoS: Generating a high amount of web requests to our VM servers to make sure that Kibana picks up data.
+- Log into Jump-Box VM and run command `wget ip.of.web.vm`: you will receive an index.html file downloaded from your web VM to your jump-box.
+- Write a loop script that will create 1000 web requests on the 10.0.0.5 server and downloaded files onto your jump-box. 
+```bash
+   for i in {1..1000};
+   do
+    wget 10.0.0.5;
+   done;
+```
+
+- View metrics on Kibana which will show on screenshot display below:
+
+![](https://github.com/raospiratory/Project-1---Automated-ELK-Stack-Deployment/blob/main/Images/networktraffic.png)
+
+</details>
 
 ---
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
 
-
+|                  Commands                 |                            Explanation                           |
+|:-----------------------------------------:|:----------------------------------------------------------------:|
+|         ssh username@[Jump.box.IP]        |                      Connect to Jump-Box VM                      |
+|                 ssh-keygen                |    Generates a public SSH key to access (Needed to set up VM)    |
+|           cat ~./ssh/id_rsa.pub           |                        Read the SSH keygen                       |
+|                 docker ps                 |             Docker command to list running containers            |
+|          docker start [CONTAINER]         |                         Start a container                        |
+|         docker attach [CONTAINER]         |                  Attaches to a running container                 |
+|          docker stop [CONTAINER]          |                     Stop a running container                     |
+|              cd /etc/ansible              |                 Change directory to /etc/ansible                 |
+|          nano  /etc/ansible/hosts         |                          Edit hosts file                         |
+|       nano /etc/ansible/ansible.cfg       |                  Edit ansible configuration file                 |
+|          nano filebeat-config.yml         |               Edit Filebeat configuration yml file               |
+|         nano filebeat-playbook.yml        |                  Edit Filebeat playbook yml file                 |
+|         nano metricbeat-config.yml        |              Edit Metricbeat configuration yml file              |
+|        nano metricbeat-playbook.yml       |                 Edit Metricbeat playbook yml file                |
+| ansible-playbook [location][filename.yml] |                     Execute ansible playbook                     |
+|             curl [options/URL]            | Client URL: Enables data transfer over various network protocols |
+|           dpkg -i [package-file]          |      Package manager for Debian: -i: installing package file     |
+|                    exit                   |                      Cause the shell to exit                     |
 
 
 ---
 
 ### Resources
 
--[What is Elk?](https://www.elastic.co/what-is/elk-stack)
--[Complete ELK Guide](https://logz.io/learn/complete-guide-elk-stack)
--[ELK-docker Readme](https://elk-docker.readthedocs.io/#prerequisites)
--[Filebeat Container Documentation](https://www.elastic.co/beats/filebeat)
--[Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
--[Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
--[Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
+- [What is Elk?](https://www.elastic.co/what-is/elk-stack)
+- [Complete ELK Guide](https://logz.io/learn/complete-guide-elk-stack)
+- [ELK-docker Readme](https://elk-docker.readthedocs.io/#prerequisites)
+- [Filebeat Container Documentation](https://www.elastic.co/beats/filebeat)
+- [Metricbeat Container Documentation](https://www.elastic.co/beats/metricbeat)
+- [Ansible Roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
+- [Docker Commands Cheat Sheet](https://phoenixnap.com/kb/list-of-docker-commands-cheat-sheet)
+- [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables)
